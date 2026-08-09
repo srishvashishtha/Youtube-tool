@@ -40,6 +40,28 @@ Read [`architecture.md`](./architecture.md) for the full stage-by-stage flow.
 - [`build-plan.md`](./build-plan.md) — the order this is built in, phase by phase
 - [`CLAUDE.md`](./CLAUDE.md) — project context for Claude Code
 
+## Running it
+
+Requires Node.js 20+ (built and tested on Node 24 LTS). Monorepo with two npm workspaces: `backend` (Fastify API + SQLite) and `frontend` (Vite + React).
+
+```bash
+npm install
+npm run dev
+```
+
+- Backend API: `http://127.0.0.1:4000` — creates `research.db` at the repo root on first run
+- Frontend: `http://localhost:5173`
+
+Or run them separately with `npm run dev:backend` / `npm run dev:frontend`. `npm run build` type-checks and builds both.
+
 ## Build status
 
-Building phase by phase per [`build-plan.md`](./build-plan.md) — Phase 1 (foundation, capture, keyword check) fully working before moving to Phase 2, and so on. No polished UI until Phase 5.
+Building phase by phase per [`build-plan.md`](./build-plan.md).
+
+- ✅ **Phase 1 — Foundation + Capture + Keyword Check.** Fastify + SQLite with all 7 tables from `database-schema.md`; capture screen (text + Web Speech API mic); YouTube autocomplete + Google Trends checks wired to the real endpoints and stored in `keyword_checks`; verdict display grouped by keyword. Verdicts are computed with a transparent, deterministic heuristic over real fetched signal — never a model guess — and the research gate (Stage 2) stays manual, as designed.
+- ⬜ Phase 2 — Research & Excerpts (Reddit/Medium/Substack/blogs/YouTube discovery, `/extract-excerpts`)
+- ⬜ Phase 3 — Highlights
+- ⬜ Phase 4 — Script Workspace + Versioning
+- ⬜ Phase 5 — SEO Recheck Loop + Polish
+
+No polished UI until Phase 5 — Phase 1's UI is intentionally plain.

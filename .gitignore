@@ -8,5 +8,14 @@ build/
 # local SQLite data — never commit real research data
 *.db
 *.db-journal
+*.db-wal
+*.db-shm
 *.sqlite
 *.sqlite3
+
+# TS build cache
+*.tsbuildinfo
+
+# Claude Code local session settings (machine-specific, not shared)
+.claude/settings.local.json
+
