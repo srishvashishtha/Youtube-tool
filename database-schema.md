@@ -29,10 +29,10 @@ One file: `research.db`. Everything for every topic lives here — deliberately 
 | id | INTEGER PK | |
 | topic_id | INTEGER FK → topics | |
 | url | TEXT | |
-| platform | TEXT | reddit / medium / substack / blog |
-| title | TEXT | |
-| author | TEXT | nullable |
-| cleaned_text | TEXT | article text, cleaned — no raw HTML stored |
+| platform | TEXT | reddit / medium / substack / blog / youtube |
+| title | TEXT | article title, or video title for `youtube` |
+| author | TEXT | nullable — post author, or channel name for `youtube` |
+| cleaned_text | TEXT | article text, cleaned — no raw HTML stored. For `youtube`, this is the video transcript/captions text — no video or audio file is ever stored |
 | fetched_at | DATETIME | |
 
 ## `excerpts`

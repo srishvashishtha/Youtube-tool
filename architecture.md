@@ -18,10 +18,12 @@ Five stages. One topic moves through all of them, stored under a single `topic_i
 **Gate:** research (Stage 2) doesn't start until you've looked at this and said go.
 
 ## Stage 2 — Research & Excerpt Collection
-**Input:** the validated topic + keywords.
+**Input:** the validated topic + keywords. Not limited to any one topic domain or region — whatever the topic is, search wherever relevant content actually exists.
 **What happens:**
-1. Search across Reddit, Medium, Substack, and general blogs for each keyword (see `tech-stack.md` for the exact free method per source).
-2. For each result, fetch and clean the article text, save as a `sources` row.
+1. Search across Reddit, Medium, Substack, general blogs, **and YouTube** for each keyword (see `tech-stack.md` for the exact free method per source). YouTube search/discovery is not restricted to Indian creators — international creators covering the same topic are equally in scope.
+2. For each result:
+   - Article/post: fetch and clean the page text, save as a `sources` row.
+   - YouTube video: fetch the video's transcript/captions (no video or audio file is downloaded or stored) and its metadata (title, channel, url), save as a `sources` row with `platform = 'youtube'`.
 3. Run each source through Claude Code (interactively, as a slash command — not a billed API call) with a prompt that extracts **excerpts**, not just a summary. Each excerpt is typed:
    - `quote` — a line worth reading aloud or showing on screen
    - `stat` — a number or data point
@@ -29,7 +31,10 @@ Five stages. One topic moves through all of them, stored under a single `topic_i
    - `counterpoint` — disagrees with your working thesis, useful when you want to contradict rather than just cite
    - `example` — a real scenario or anecdote you could adapt
 4. Excerpts save with a one-line relevance note: *why this might matter for your script.*
-**Output:** `sources` rows (one per article) and `excerpts` rows (many per source), all tagged to the topic.
+
+**Hard rule for this whole stage:** every excerpt must be pulled from the actual `cleaned_text` (article text or video transcript) that was fetched and stored — never generated or inferred from the model's own knowledge. If a source doesn't actually contain a good `stat`, or a `counterpoint`, or whatever type, that type is simply skipped for that source. Nothing gets invented to fill a category, and no source gets cited that wasn't actually fetched and verified to exist.
+
+**Output:** `sources` rows (one per article or video) and `excerpts` rows (many per source), all tagged to the topic.
 **UI shape:** a topic page showing brief cards, one per source — click to expand into that source's excerpts.
 
 ## Stage 3 — Highlight Library

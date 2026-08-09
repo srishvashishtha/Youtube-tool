@@ -20,9 +20,15 @@ Note: this replaces paid tools like TubeBuddy/vidIQ for now. If the free signal 
 - **Medium:** RSS feeds per tag — `https://medium.com/feed/tag/{tag-name}` — no auth, gives recent articles on a topic
 - **Substack:** RSS feed per publication — `https://{publication}.substack.com/feed` — free, but you need to *discover* relevant publications first (see general search below)
 - **General blog/Substack discovery:** DuckDuckGo HTML search (no API key required, scrape the results page directly) using `site:substack.com {topic}` or `site:medium.com {topic}` style queries — free and has no daily cap like Google's API does
+- **YouTube (search + transcripts):** use `yt-dlp` (free, open-source, no API key) for both steps:
+  - Search: `yt-dlp "ytsearch20:{keyword}" --flat-playlist -j` returns matching videos (id, title, channel, url) as JSON — no key, no billed quota, not restricted to any one country's results
+  - Transcript: `yt-dlp --write-auto-sub --skip-download --sub-lang en {video_url}` pulls the auto-generated or manual caption track as text. Only the caption/subtitle text is kept — **no video or audio file is ever downloaded to disk**, consistent with the "no raw audio" rule
+  - This covers Indian and international creators equally — the search isn't scoped to a region unless the keyword itself implies one
 
 ## Stage 2 — Excerpt extraction (the free "AI" part)
 This is the key move for staying at $0: **don't call the Anthropic API programmatically** — that's billed per token. Instead, structure this as a **Claude Code slash command**, e.g. `/extract-excerpts {source_id}`, that you trigger, and Claude Code's own interactive session (already covered by your subscription) does the reading and extraction, then writes structured results straight into SQLite. Same approach for the inline script commenting in Stage 4. This isn't a workaround — it's using the tool you're already paying for as the reasoning engine instead of building a second, billed pipeline.
+
+**No fabrication, ever.** These slash commands read from `cleaned_text` that was actually fetched and stored (article text or video transcript) — they extract and quote from it, they don't generate new claims, stats, or quotes from the model's general knowledge. If a source doesn't have a real counterpoint, or a real stat, that excerpt type just doesn't get created for that source. Same for source discovery itself: only real, actually-found URLs get saved as `sources` — never a plausible-sounding one that wasn't actually returned by a real search.
 
 ## Stage 4 — Script diffing
 - Plain text diff for `change_summary` between versions — `diff` npm package or a simple line-by-line comparison is enough, nothing fancy needed

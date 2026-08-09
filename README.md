@@ -1,13 +1,15 @@
 # Research & Script Assistant
 
-A personal, local-first tool for researching and scripting YouTube videos on Indian women's challenges — being a "high value woman" within a collectivist culture, partner selection, career, and related themes.
+A personal, local-first tool for researching and scripting YouTube videos for an audience of women roughly age 18–35.
 
 It takes a video idea from a voice memo all the way to a fully researched, sourced, version-tracked script — and makes sure every line traces back to where it came from.
 
+The audience (women 18–35) is the constant — not the topic. Any topic relevant to that audience is in scope, video to video; nothing here is hardcoded to a single subject, region, or cultural framing. Sources aren't geographically limited either — Indian and international creators/publications alike, wherever the relevant content actually is.
+
 ## The problem
 
-Research for these videos means reading dozens of Medium posts, Substack essays, Reddit threads, and blog posts. The bottleneck isn't finding opinions — it's:
-1. Losing track of *which article* a specific line or stat came from
+Research for these videos means reading dozens of Medium posts, Substack essays, Reddit threads, and blog posts, and watching other creators' videos on the topic. The bottleneck isn't finding opinions — it's:
+1. Losing track of *which article or video* a specific line or stat came from
 2. No structured place to collect "things that might be useful" before writing starts
 3. No way to get feedback on a draft that's tied back to the actual sources, instead of generic AI edits
 
@@ -15,9 +17,10 @@ Research for these videos means reading dozens of Medium posts, Substack essays,
 
 - **Zero paid APIs** — every external call uses a free tier or an unofficial-but-free endpoint
 - **The script is never AI-written** — this tool researches, organizes, and comments; it never generates the script itself
-- **Everything traces back to source** — every excerpt, highlight, and inline comment carries a link back to the original article/post
+- **Everything traces back to source** — every excerpt, highlight, and inline comment carries a link back to the original article/video/post
+- **Never fabricate** — excerpts, stats, quotes, and sources only ever come from content that was actually fetched and actually exists; if a real source can't be found, it's left out, never invented
 - **Local-first** — a single SQLite file on disk, no cloud dependency, runs entirely on your machine
-- **Small footprint** — no raw audio stored after transcription, no full-page HTML dumps, cleaned text only
+- **Small footprint** — no raw audio/video stored after transcription, no full-page HTML dumps, cleaned text only
 
 ## How it works
 

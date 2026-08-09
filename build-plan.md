@@ -10,8 +10,8 @@ Build in this order. Each phase should be fully working, even if ugly, before mo
 - **Done when:** you can speak/type an idea and get a keyword read on it, stored against a topic.
 
 ## Phase 2 — Research & Excerpts
-- Build source discovery: given a topic's keywords, hit Reddit/Medium/Substack/blog search, collect candidate URLs
-- Fetch + clean article text, save as `sources`
+- Build source discovery: given a topic's keywords, hit Reddit/Medium/Substack/blog search **and YouTube search**, collect candidate URLs — not scoped to any one topic or region, whatever the keywords turn up
+- Fetch + clean article text (or video transcript, for YouTube results), save as `sources`
 - Build the `/extract-excerpts` Claude Code command that reads a source and writes typed excerpts to `excerpts`
 - Build the topic page UI: brief cards per source, click to expand into excerpts
 - **Done when:** for a validated topic, you get a page of source cards with typed, relevance-noted excerpts.
@@ -35,4 +35,4 @@ Build in this order. Each phase should be fully working, even if ugly, before mo
 - **Done when:** the full loop — capture → validate → research → highlight → draft → comment → revise → recheck — works start to finish for one real topic.
 
 ## After Phase 5
-Use it for real, on the actual "high value women in Indian households" video. Whatever breaks or annoys you in real use is the actual backlog — better signal than anything speculative right now.
+Use it for real, on whatever your actual next video idea is — the tool isn't scoped to one topic, so this can be anything relevant to the 18–35 women audience. Whatever breaks or annoys you in real use is the actual backlog — better signal than anything speculative right now.
