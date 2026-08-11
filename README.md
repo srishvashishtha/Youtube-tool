@@ -54,6 +54,8 @@ npm run dev
 
 Or run them separately with `npm run dev:backend` / `npm run dev:frontend`. `npm run build` type-checks and builds both.
 
+**Note for Claude Code sessions:** this repo lives under `~/Desktop`, which macOS privacy-gates (TCC) separately from normal file permissions. The Browser pane's `preview_start({name: "dev"})` auto-launcher runs as a helper process that isn't granted access there, so it fails with a `getcwd`/"Operation not permitted" error even though `.claude/launch.json` is correctly configured. Don't try to fix this by touching macOS privacy settings or the repo location — instead, start the dev server directly (`npm run dev` via Bash) and open the preview with `preview_start({url: "http://localhost:5173"})` instead of `{name: "dev"}`. Same result, no permission needed, since it just points a browser tab at an already-running port rather than asking that helper to spawn anything.
+
 ## Build status
 
 Building phase by phase per [`build-plan.md`](./build-plan.md).
