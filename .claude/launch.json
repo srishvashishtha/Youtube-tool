@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "dev",
+      "runtimeExecutable": "/Users/srishtivashishtha/Desktop/docs/.claude/run-dev.sh",
+      "runtimeArgs": [],
+      "port": 5173
+    }
+  ]
+}
