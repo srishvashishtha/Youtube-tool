@@ -11,7 +11,7 @@
 
 ## Stage 1 — Keyword validation (all free)
 - **YouTube autocomplete:** `https://suggestqueries.google.com/complete/search?client=youtube&ds=yt&q={query}` — unofficial but stable, widely used, no key needed, returns related searches as JSONP (easy to parse)
-- **Google Trends:** `pytrends` (Python) or `google-trends-api` (Node) — unofficial wrapper, free, gives relative interest over time and related queries
+- **Google Trends:** `pytrends` (Python) or `google-trends-api` (Node) — unofficial wrapper, free, gives relative interest over time and related queries. Being unauthenticated, Google will block the *IP* with its general "unusual traffic" 429 page if requests come in bursts — not a design flaw, just the cost of a free unofficial endpoint. Two protections, both already in `backend/src/services/googleTrends.ts` / `backend/src/routes/keywordChecks.ts`: real requests are serialized and spaced at least 20s apart (never fired in parallel), and a real result for the same phrase is reused for 7 days instead of re-asking Google (Trends' 12-month rolling average doesn't meaningfully shift day to day). Neither is a workaround for an active block — they just avoid causing one.
 
 Note: this replaces paid tools like TubeBuddy/vidIQ for now. If the free signal proves too thin later, that's a good problem to have — it means the tool is working and worth paying for real keyword data.
 
