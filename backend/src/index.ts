@@ -3,6 +3,12 @@ import cors from "@fastify/cors";
 import { db, runMigrations } from "./db/index.js";
 import { topicsRoutes } from "./routes/topics.js";
 import { keywordChecksRoutes } from "./routes/keywordChecks.js";
+import { sourcesRoutes } from "./routes/sources.js";
+import { excerptsRoutes } from "./routes/excerpts.js";
+import { highlightsRoutes } from "./routes/highlights.js";
+import { scriptsRoutes } from "./routes/scripts.js";
+import { scriptCommentsRoutes } from "./routes/scriptComments.js";
+import { seoChecksRoutes } from "./routes/seoChecks.js";
 
 runMigrations();
 
@@ -23,6 +29,12 @@ app.get("/api/health", async () => ({ ok: true }));
 
 await app.register(topicsRoutes);
 await app.register(keywordChecksRoutes);
+await app.register(sourcesRoutes);
+await app.register(excerptsRoutes);
+await app.register(highlightsRoutes);
+await app.register(scriptsRoutes);
+await app.register(scriptCommentsRoutes);
+await app.register(seoChecksRoutes);
 
 const PORT = Number(process.env.PORT ?? 4000);
 

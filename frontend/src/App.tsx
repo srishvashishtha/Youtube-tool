@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { api } from "./api";
 import type { Topic } from "./types";
 import { CaptureScreen } from "./pages/CaptureScreen";
-import { KeywordChecker } from "./components/KeywordChecker";
+import { TopicDetail } from "./pages/TopicDetail";
 
 export default function App() {
   const [topics, setTopics] = useState<Topic[]>([]);
@@ -24,7 +24,7 @@ export default function App() {
     <div className="app">
       <aside className="sidebar">
         <h1>Research &amp; Script Assistant</h1>
-        <p className="muted">Phase 1 — capture + keyword check</p>
+        <p className="muted">Capture → keyword check → research → highlights → script → SEO recheck</p>
 
         <h3>Topics</h3>
         {loading ? (
@@ -58,9 +58,9 @@ export default function App() {
 
       <main className="main">
         {selected ? (
-          <KeywordChecker topic={selected} />
+          <TopicDetail topic={selected} />
         ) : (
-          <p className="muted">Select a topic, or create a new one, to run a keyword check.</p>
+          <p className="muted">Select a topic, or create a new one, to get started.</p>
         )}
       </main>
     </div>

@@ -19,3 +19,7 @@ build/
 # Claude Code local session settings (machine-specific, not shared)
 .claude/settings.local.json
 
+# Scratch JSON files passed between slash-command steps and their db-write
+# helpers (extract-excerpts, comment-on-script) — ephemeral, never real data
+.claude/tmp/
+

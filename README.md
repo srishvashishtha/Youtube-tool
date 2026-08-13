@@ -58,12 +58,12 @@ Or run them separately with `npm run dev:backend` / `npm run dev:frontend`. `npm
 
 ## Build status
 
-Building phase by phase per [`build-plan.md`](./build-plan.md).
+All 5 phases from [`build-plan.md`](./build-plan.md) are built, end to end.
 
-- ✅ **Phase 1 — Foundation + Capture + Keyword Check.** Fastify + SQLite with all 7 tables from `database-schema.md`; capture screen (text + Web Speech API mic); YouTube autocomplete + Google Trends checks wired to the real endpoints and stored in `keyword_checks`; verdict display grouped by keyword. Verdicts are computed with a transparent, deterministic heuristic over real fetched signal — never a model guess — and the research gate (Stage 2) stays manual, as designed.
-- ⬜ Phase 2 — Research & Excerpts (Reddit/Medium/Substack/blogs/YouTube discovery, `/extract-excerpts`)
-- ⬜ Phase 3 — Highlights
-- ⬜ Phase 4 — Script Workspace + Versioning
-- ⬜ Phase 5 — SEO Recheck Loop + Polish
+- ✅ **Phase 1 — Foundation + Capture + Keyword Check.** Fastify + SQLite with all 8 tables from `database-schema.md`; capture screen (text + Web Speech API mic); YouTube autocomplete + Google Trends checks wired to the real endpoints and stored in `keyword_checks`; verdict display grouped by keyword. Verdicts are computed with a transparent, deterministic heuristic over real fetched signal — never a model guess — and the research gate (Stage 2) stays manual, as designed.
+- ✅ **Phase 2 — Research & Excerpts.** Source discovery across Reddit, Medium, Substack (via DuckDuckGo), general blogs, and YouTube (via `yt-dlp`) — real candidates only, nothing saved until you pick one. Article/video text is fetched and cleaned (`Readability`/transcript, no raw HTML or media ever stored). `/extract-excerpts <source_id>` is a real Claude Code slash command that reads a source's actual text and writes typed excerpts — a helper script mechanically verifies every excerpt is a real substring of the source before it's allowed into the DB, rejecting anything that isn't.
+- ✅ **Phase 3 — Highlights.** Select any text on a source or excerpt (browser Selection API) to highlight it, always traced back to its source. Flat "all highlights" view per topic.
+- ✅ **Phase 4 — Script Workspace + Versioning.** Paste/upload script versions; `/comment-on-script` (another real slash command, same substring-verification guarantee) leaves inline comments anchored to real script text — it never writes into the script itself, only into `script_comments`. Version history with on-demand line diffs (`diff` package, nothing pre-computed/stored).
+- ✅ **Phase 5 — SEO Recheck Loop + Polish.** Re-runs the Phase 1 keyword-check logic (same services, unmodified) against a specific script version. UI polish pass across all five tabs.
 
-No polished UI until Phase 5 — Phase 1's UI is intentionally plain.
+Two slash commands live under [`.claude/commands/`](./.claude/commands/): `/extract-excerpts <source_id>` and `/comment-on-script <topic_id> [script_id]`. Both run interactively in a Claude Code session — never a billed API call — and both have a mechanical (not just prompted) guard against fabrication: content that isn't a real, verbatim substring of what was actually fetched gets rejected, not inserted.
