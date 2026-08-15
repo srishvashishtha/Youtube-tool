@@ -25,8 +25,24 @@ export async function fetchAndCleanArticle(url: string): Promise<CleanedArticle>
 
   // Default jsdom config: no external resource loading, no script execution —
   // this only ever parses the HTML text already fetched above.
+  // jsdom holds a full DOM plus timers per instance and does NOT free them on
+  // its own — without the window.close() below, fetching several articles in a
+  // row leaks each DOM until GC runs under pressure, which trips a native
+  // finalizer crash and takes the whole server down. Parse, copy the strings
+  // out, close, then work only with the copies.
   const dom = new JSDOM(html, { url });
-  const article = new Readability(dom.window.document).parse();
+  let article: ReturnType<Readability["parse"]>;
+  try {
+    article = new Readability(dom.window.document).parse();
+    article = article && {
+      ...article,
+      title: String(article.title ?? ""),
+      byline: String(article.byline ?? ""),
+      textContent: String(article.textContent ?? ""),
+    };
+  } finally {
+    dom.window.close();
+  }
 
   if (!article?.textContent || article.textContent.trim().length < 50) {
     // Paywalled, JS-rendered, or genuinely empty — refuse rather than save
@@ -37,7 +53,12 @@ export async function fetchAndCleanArticle(url: string): Promise<CleanedArticle>
     );
   }
 
+  //   (nbsp) and friends survive Readability and are invisible in the UI,
+  // but they are NOT the space character a person types or pastes. Left in,
+  // they silently fail the substring check that guards against fabricated
+  // excerpts — rejecting real quotes as fake. Fold them to plain spaces first.
   const cleaned_text = article.textContent
+    .replace(/[   ​﻿]/g, " ")
     .replace(/[ \t]+/g, " ")
     .replace(/\n{3,}/g, "\n\n")
     .trim();
